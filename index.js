@@ -1,4 +1,6 @@
 require("dotenv").config();
+const { clearList } = require("./utils.js");
+const cron = require("node-cron");
 const fs = require("node:fs");
 const path = require("node:path");
 const { Client, Collection, Events, GatewayIntentBits } = require("discord.js");
@@ -59,4 +61,9 @@ client.on(Events.InteractionCreate, async (interaction) => {
       });
     }
   }
+});
+
+cron.schedule("01 00 * * *", () => {
+  clearList();
+  console.log("Player list cleared");
 });

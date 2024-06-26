@@ -1,4 +1,3 @@
-const { db } = require("../../db.js");
 const { addToList, checkAndCreateUser } = require("../../utils.js");
 const { SlashCommandBuilder } = require("discord.js");
 

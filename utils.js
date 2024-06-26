@@ -89,6 +89,27 @@ const removeFromList = async (discordId, username) => {
   }
 };
 
+const clearList = async () => {
+  try {
+    const activePlayers = await db
+      .collection("users")
+      .getFullList("isPlaying = {:isPlaying} || isSpare = {:isSpare} ", {
+        isPlaying: true,
+        isSpare: true,
+      });
+    for (const activePlayer of activePlayers) {
+      const updatedPlayer = {
+        ...activePlayer,
+        isPlaying: false,
+        isSpare: false,
+      };
+      await db.collection("users").update(activePlayer.id, updatedPlayer);
+    }
+  } catch (err) {
+    console.error("Error clearing list:", err);
+  }
+};
+
 const checkAndCreateUser = async (discordId, username) => {
   try {
     const user = await db
@@ -113,5 +134,6 @@ module.exports = {
   showList,
   addToList,
   checkAndCreateUser,
-  removeFromList
+  removeFromList,
+  clearList,
 };
